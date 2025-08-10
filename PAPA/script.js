@@ -3,30 +3,30 @@ document.getElementById('analyse-button').addEventListener('click', async () => 
     outputElement.innerHTML = `<p>Analysing...</p>`;
 
     try {
-        // This is a placeholder. You would replace this with a call to your backend API.
-        // Example: const response = await fetch('/api/analyse');
-        // const data = await response.json();
+        // This is the key change! We're now calling your Vercel serverless function.
+        // Vercel automatically exposes the 'api/analyse.js' file at the '/api/analyse' endpoint.
+        const response = await fetch('/api/analyse');
         
-        // Simulating an API call with a delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Check if the response was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        // Parse the JSON data from the backend
+        const data = await response.json();
 
-        // Placeholder for dynamic data
-        const currencyPair = 'AUDUSD'; // This would come from your API
-        const timeFrame = '1 min';
-        const expirationTime = '5:00 PM';
-        const direction = 'Up';
-
+        // Use the data from the backend to construct the output message
         const outputMessage = `Qoutex is analysed using all indicators, all patterns and all strategies, able to fetch live market then give us the outputs accurate
         
-${currencyPair}
-${timeFrame} 
-Time it's should expire: ${expirationTime} 
-${direction}`;
+${data.currencyPair}
+${data.timeFrame} 
+Time it's should expire: ${data.expirationTime} 
+${data.direction}`;
 
         outputElement.innerText = outputMessage;
 
     } catch (error) {
-        outputElement.innerHTML = `<p>Error during analysis. Please try again.</p>`;
+        outputElement.innerHTML = `<p>Error during analysis. Please try again. Check the console for details.</p>`;
         console.error('Analysis failed:', error);
     }
 });
