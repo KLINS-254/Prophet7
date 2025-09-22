@@ -13,17 +13,17 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            position: relative; /* This is the reference point for absolute positioning */
+            position: relative;
         }
-        
-        .scan-container {
-            position: absolute; /* Allows for precise placement */
-            bottom: 40px; /* Positions the box from the bottom of the page */
-            left: 50%; /* Centers the box horizontally */
-            transform: translateX(-50%); /* Adjusts the horizontal center */
 
-            width: 120px; /* Matches the sketch's width */
-            height: 100px; /* Matches the sketch's height */
+        .scan-container {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: 120px;
+            height: 100px;
             
             display: flex;
             justify-content: center;
@@ -60,7 +60,7 @@
             animation: none;
         }
 
-        .scan-container:hover .scan-line {
+        .scan-line.active {
             opacity: 1;
             animation: scan 3s linear infinite;
         }
@@ -80,11 +80,36 @@
 </head>
 <body>
 
-    <div class="scan-container">
+    <div class="scan-container" id="scan-box">
         <div class="scan-frame">
-            <div class="scan-line"></div>
+            <div class="scan-line" id="scan-line"></div>
         </div>
     </div>
+
+    <script>
+        const scanBox = document.getElementById('scan-box');
+        const scanLine = document.getElementById('scan-line');
+
+        scanBox.addEventListener('mousedown', () => {
+            // Start the line animation
+            scanLine.classList.add('active');
+
+            // Apply vibration
+            if ('vibrate' in navigator) {
+                navigator.vibrate(100); // Vibrate for 100 milliseconds
+            }
+        });
+
+        scanBox.addEventListener('mouseup', () => {
+            // Stop the line animation
+            scanLine.classList.remove('active');
+            
+            // Cancel any ongoing vibration
+            if ('vibrate' in navigator) {
+                navigator.vibrate(0);
+            }
+        });
+    </script>
 
 </body>
 </html>
