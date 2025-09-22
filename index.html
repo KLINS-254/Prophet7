@@ -13,7 +13,7 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #08f; /* Blue for the main theme */
+            color: #08f;
         }
 
         .fingerprint-container {
@@ -50,15 +50,12 @@
             background: linear-gradient(to right, transparent, #f00, transparent);
             top: 0;
             box-shadow: 0 0 15px #f00;
-            
-            /* The key changes */
-            opacity: 0;
-            animation: none;
-            transition: opacity 0.5s ease-in-out;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out;
         }
 
-        .fingerprint-container:hover .scan-line {
-            opacity: 1;
+        .scan-line.active {
+            opacity: 1; /* Visible when active */
             animation: scan 3s linear infinite;
         }
 
@@ -77,11 +74,24 @@
 </head>
 <body>
 
-    <div class="fingerprint-container">
+    <div class="fingerprint-container" id="scan-box">
         <div class="fingerprint-frame">
-            <div class="scan-line"></div>
+            <div class="scan-line" id="scan-line"></div>
         </div>
     </div>
+
+    <script>
+        const scanBox = document.getElementById('scan-box');
+        const scanLine = document.getElementById('scan-line');
+
+        scanBox.addEventListener('mousedown', () => {
+            scanLine.classList.add('active');
+        });
+
+        scanBox.addEventListener('mouseup', () => {
+            scanLine.classList.remove('active');
+        });
+    </script>
 
 </body>
 </html>
