@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fingerprint Scan with Vibration</title>
+<title>Fingerprint Scan on Touch</title>
 <style>
   body {
     margin: 0;
@@ -25,23 +25,14 @@
     box-shadow: 0 0 30px #00ff00 inset;
   }
 
-  .finger-box {
-    position: absolute;
-    width: 60px;
-    height: 80px;
-    border: 2px solid limegreen;
-    border-radius: 10px;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
   .line {
     position: absolute;
-    width: 100%;
+    width: 60px;      /* width of the line, like finger size */
     height: 4px;
     background: limegreen;
     left: 0;
     top: 0;
+    display: none;    /* hidden until touch */
   }
 </style>
 </head>
@@ -51,46 +42,39 @@
 
 <script>
 const scanner = document.getElementById('scanner');
+let line, scanInterval;
 
-let fingerBox, scanLine, scanInterval;
-
-function createFingerBox(x, y) {
-  // Create box
-  fingerBox = document.createElement('div');
-  fingerBox.classList.add('finger-box');
-  fingerBox.style.left = `${x - 30}px`;
-  fingerBox.style.top = `${y - 40}px`;
-  scanner.appendChild(fingerBox);
-
-  // Create scanning line
-  scanLine = document.createElement('div');
-  scanLine.classList.add('line');
-  scanLine.style.top = '0px';
-  fingerBox.appendChild(scanLine);
-
-  // Trigger vibration (50ms)
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
+function startScan(x, y) {
+  // Create line if not exists
+  if (!line) {
+    line = document.createElement('div');
+    line.classList.add('line');
+    scanner.appendChild(line);
   }
+  line.style.left = `${x - 30}px`;  // center at touch
+  line.style.top = `${y}px`;
+  line.style.display = 'block';
+
+  // Vibrate on touch
+  if (navigator.vibrate) navigator.vibrate(50);
 
   // Start continuous scan
-  let pos = 0;
+  let pos = y;
   let direction = 1;
   scanInterval = setInterval(() => {
     pos += direction * 2;
-    if (pos >= fingerBox.clientHeight - 4) direction = -1;
+    if (pos >= scanner.clientHeight - 4) direction = -1;
     if (pos <= 0) direction = 1;
-    scanLine.style.top = pos + 'px';
+    line.style.top = pos + 'px';
   }, 16);
 }
 
-function removeFingerBox() {
+function stopScan() {
   clearInterval(scanInterval);
-  if (fingerBox) fingerBox.remove();
-  fingerBox = null;
-  scanLine = null;
+  if (line) line.style.display = 'none';
 }
 
+// Get relative coordinates
 function getRelativePosition(e) {
   const rect = scanner.getBoundingClientRect();
   let x, y;
@@ -107,20 +91,20 @@ function getRelativePosition(e) {
 // Mouse events
 scanner.addEventListener('mousedown', (e) => {
   const {x, y} = getRelativePosition(e);
-  createFingerBox(x, y);
+  startScan(x, y);
 });
 
-scanner.addEventListener('mouseup', removeFingerBox);
-scanner.addEventListener('mouseleave', removeFingerBox);
+scanner.addEventListener('mouseup', stopScan);
+scanner.addEventListener('mouseleave', stopScan);
 
 // Touch events
 scanner.addEventListener('touchstart', (e) => {
   const {x, y} = getRelativePosition(e);
-  createFingerBox(x, y);
+  startScan(x, y);
 });
 
-scanner.addEventListener('touchend', removeFingerBox);
-scanner.addEventListener('touchcancel', removeFingerBox);
+scanner.addEventListener('touchend', stopScan);
+scanner.addEventListener('touchcancel', stopScan);
 </script>
 
 </body>
