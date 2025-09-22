@@ -6,14 +6,14 @@
     <title>Scan</title>
     <style>
         body {
-            background-color: #fff; /* White background */
+            background-color: #000; /* Black background */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333; /* Dark gray for text */
+            color: #08f; /* Blue text color */
         }
 
         .fingerprint-container {
@@ -23,9 +23,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.1); /* Light black background tint */
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* Black glow */
-            border: 2px solid rgba(0, 0, 0, 0.5); /* Black border */
+            background: rgba(0, 136, 255, 0.1); /* Blue background tint */
+            box-shadow: 0 0 50px rgba(0, 136, 255, 0.5); /* Blue glow */
+            border: 2px solid rgba(0, 136, 255, 0.5); /* Blue border */
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
@@ -35,8 +35,8 @@
             position: relative;
             width: 80%;
             height: 80%;
-            border: 1px solid #000; /* Black border */
-            box-shadow: 0 0 20px #000; /* Black shadow */
+            border: 1px solid #08f; /* Blue border */
+            box-shadow: 0 0 20px #08f; /* Blue shadow */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,11 +50,14 @@
             background: linear-gradient(to right, transparent, #f00, transparent); /* Retained red for high contrast */
             top: 0;
             box-shadow: 0 0 15px #f00; /* Retained red shadow */
+            
+            /* CSS-only animation properties */
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
+            animation: none; /* Animation is off by default */
         }
 
-        .scan-line.active {
+        .fingerprint-container:hover .scan-line {
             opacity: 1;
             animation: scan 3s linear infinite;
         }
@@ -74,24 +77,11 @@
 </head>
 <body>
 
-    <div class="fingerprint-container" id="scan-box">
+    <div class="fingerprint-container">
         <div class="fingerprint-frame">
-            <div class="scan-line" id="scan-line"></div>
+            <div class="scan-line"></div>
         </div>
     </div>
-
-    <script>
-        const scanBox = document.getElementById('scan-box');
-        const scanLine = document.getElementById('scan-line');
-
-        scanBox.addEventListener('mousedown', () => {
-            scanLine.classList.add('active');
-        });
-
-        scanBox.addEventListener('mouseup', () => {
-            scanLine.classList.remove('active');
-        });
-    </script>
 
 </body>
 </html>
