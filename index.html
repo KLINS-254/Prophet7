@@ -28,6 +28,8 @@
             border: 2px solid rgba(0, 136, 255, 0.5);
             border-radius: 10px;
             overflow: hidden;
+            /* New: Placeholder for the scan area */
+            cursor: pointer;
         }
 
         .fingerprint-frame {
@@ -40,12 +42,7 @@
             justify-content: center;
             align-items: center;
             border-radius: 5px;
-            /* Placeholder for the fingerprint image */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 10c-16.6 0-30 13.4-30 30s13.4 30 30 30 30-13.4 30-30-13.4-30-30-30zm0 10c-11.1 0-20 8.9-20 20s8.9 20 20 20 20-8.9 20-20-8.9-20-20-20zm0 10c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z" fill="%2308f"/></svg>');
-            background-size: 80%;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: brightness(0.7) drop-shadow(0 0 15px #08f);
+            /* Placeholder for the fingerprint image - will be transparent */
         }
 
         .scan-line {
@@ -54,8 +51,13 @@
             height: 4px;
             background: linear-gradient(to right, transparent, #f00, transparent);
             top: 0;
-            animation: scan 3s linear infinite;
             box-shadow: 0 0 15px #f00;
+            /* The animation will only run on hover */
+            animation: none;
+        }
+
+        .fingerprint-container:hover .scan-line {
+            animation: scan 3s linear infinite;
         }
 
         @keyframes scan {
