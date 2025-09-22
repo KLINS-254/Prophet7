@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Scan Box</title>
+    <title>Non-Scrolling Scan Page</title>
     <style>
         body {
             background-color: #000;
@@ -13,12 +13,17 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Prevents scrolling */
+            overflow: hidden; /* This prevents all scrolling */
         }
 
         .scan-container {
-            width: 300px;
-            height: 400px;
+            position: fixed; /* Keeps the box in a fixed position on the screen */
+            bottom: 40px; /* Positions the box from the bottom of the page */
+            left: 50%; /* Centers the box horizontally */
+            transform: translateX(-50%); /* Adjusts the horizontal center */
+
+            width: 120px;
+            height: 100px;
             
             display: flex;
             justify-content: center;
