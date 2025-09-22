@@ -3,94 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fingerprint Scan Effect</title>
+<title>Fingerprint Scan Detection</title>
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: #111;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    background: #111;
     touch-action: none;
   }
 
   .scanner {
     position: relative;
     width: 300px;
-    height: 300px;
+    height: 400px;
     background: radial-gradient(circle at center, #222, #000);
-    border-radius: 50%;
-    box-shadow: 0 0 50px #00ff00;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 0 50px #00ff00;
   }
 
   .line {
     position: absolute;
-    width: 4px;
-    height: 0;
+    width: 100%;
+    height: 4px;
     background: limegreen;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: scan 1s linear infinite;
+    top: 0;
+    left: 0;
+    animation: scan 2s linear infinite;
   }
 
   @keyframes scan {
-    0% { height: 0; top: 0; }
-    50% { height: 100%; top: 0; }
-    100% { height: 0; top: 100%; }
+    0% { top: 0; }
+    100% { top: 100%; }
   }
 
   .touch-point {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background: limegreen;
     border-radius: 50%;
-    box-shadow: 0 0 15px limegreen;
+    box-shadow: 0 0 20px limegreen;
     pointer-events: none;
+    opacity: 0;
+    animation: flash 0.5s forwards;
+  }
+
+  @keyframes flash {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(1); }
   }
 </style>
 </head>
 <body>
 
 <div class="scanner" id="scanner">
-  <div class="line"></div>
+  <div class="line" id="line"></div>
 </div>
 
 <script>
-  const scanner = document.getElementById('scanner');
+const scanner = document.getElementById('scanner');
+const line = document.getElementById('line');
 
-  function createTouchPoint(x, y) {
-    const point = document.createElement('div');
-    point.classList.add('touch-point');
-    point.style.left = `${x - 10}px`; // center the point
-    point.style.top = `${y - 10}px`;
+function detectTouch(x, y) {
+  const point = document.createElement('div');
+  point.classList.add('touch-point');
+  point.style.left = `${x - 15}px`;
+  point.style.top = `${y - 15}px`;
+  scanner.appendChild(point);
 
-    scanner.appendChild(point);
+  setTimeout(() => point.remove(), 500);
+}
 
-    // Animate and remove after short time
-    setTimeout(() => {
-      point.remove();
-    }, 1000);
+function getRelativePosition(e) {
+  const rect = scanner.getBoundingClientRect();
+  let x, y;
+  if (e.touches) {
+    x = e.touches[0].clientX - rect.left;
+    y = e.touches[0].clientY - rect.top;
+  } else {
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
   }
+  return {x, y};
+}
 
-  scanner.addEventListener('click', (e) => {
-    const rect = scanner.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    createTouchPoint(x, y);
-  });
+// Detect touch or click
+scanner.addEventListener('click', (e) => {
+  const {x, y} = getRelativePosition(e);
+  detectTouch(x, y);
+});
 
-  scanner.addEventListener('touchstart', (e) => {
-    const rect = scanner.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-    createTouchPoint(x, y);
-  });
+scanner.addEventListener('touchstart', (e) => {
+  const {x, y} = getRelativePosition(e);
+  detectTouch(x, y);
+});
 </script>
 
 </body>
-  </html>
+</html>
