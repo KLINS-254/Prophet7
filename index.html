@@ -13,23 +13,17 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative; /* This is the reference point for absolute positioning */
         }
         
-        /* This is your "red-marked area" container */
-        .marked-area {
-            position: relative;
-            width: 350px; /* Adjust to match the width of your marked area */
-            height: 450px; /* Adjust to match the height of your marked area */
-            /* This border is for demonstration, you can remove it */
-            border: 2px solid red; 
-        }
-
         .scan-container {
-            position: absolute; /* Allows for sizing relative to the parent */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: absolute; /* Allows for precise placement */
+            bottom: 40px; /* Positions the box from the bottom of the page */
+            left: 50%; /* Centers the box horizontally */
+            transform: translateX(-50%); /* Adjusts the horizontal center */
+
+            width: 120px; /* Matches the sketch's width */
+            height: 100px; /* Matches the sketch's height */
             
             display: flex;
             justify-content: center;
@@ -86,11 +80,9 @@
 </head>
 <body>
 
-    <div class="marked-area">
-        <div class="scan-container">
-            <div class="scan-frame">
-                <div class="scan-line"></div>
-            </div>
+    <div class="scan-container">
+        <div class="scan-frame">
+            <div class="scan-line"></div>
         </div>
     </div>
 
