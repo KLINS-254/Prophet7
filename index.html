@@ -28,7 +28,6 @@
             border: 2px solid rgba(0, 136, 255, 0.5);
             border-radius: 10px;
             overflow: hidden;
-            /* New: Placeholder for the scan area */
             cursor: pointer;
         }
 
@@ -42,7 +41,6 @@
             justify-content: center;
             align-items: center;
             border-radius: 5px;
-            /* Placeholder for the fingerprint image - will be transparent */
         }
 
         .scan-line {
@@ -52,11 +50,15 @@
             background: linear-gradient(to right, transparent, #f00, transparent);
             top: 0;
             box-shadow: 0 0 15px #f00;
-            /* The animation will only run on hover */
+            
+            /* The key changes */
+            opacity: 0;
             animation: none;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .fingerprint-container:hover .scan-line {
+            opacity: 1;
             animation: scan 3s linear infinite;
         }
 
