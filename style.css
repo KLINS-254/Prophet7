@@ -1,0 +1,64 @@
+body {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #08f;
+}
+
+.fingerprint-container {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 136, 255, 0.1);
+    box-shadow: 0 0 50px rgba(0, 136, 255, 0.5);
+    border: 2px solid rgba(0, 136, 255, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fingerprint-frame {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    border: 1px solid #08f;
+    box-shadow: 0 0 20px #08f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.fingerprint-icon {
+    width: 90%;
+    filter: brightness(0.7) drop-shadow(0 0 15px #08f);
+    opacity: 0.8;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, transparent, #08f, transparent);
+    top: 0;
+    animation: scan 3s linear infinite;
+    box-shadow: 0 0 15px #08f;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+    50% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
