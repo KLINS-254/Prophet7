@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sizable Scan Box</title>
+    <title>Centered Scan Box</title>
     <style>
         body {
             background-color: #000;
@@ -13,17 +13,12 @@
             height: 100vh;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            position: relative; /* This is the reference point for absolute positioning */
         }
-        
-        .scan-container {
-            position: absolute; /* Allows for precise placement */
-            bottom: 40px; /* Positions the box from the bottom of the page */
-            left: 50%; /* Centers the box horizontally */
-            transform: translateX(-50%); /* Adjusts the horizontal center */
 
-            width: 120px; /* Matches the sketch's width */
-            height: 100px; /* Matches the sketch's height */
+        .scan-container {
+            /* Sizing is now based on viewport size to avoid scrolling */
+            width: 30vw; /* 30% of the viewport width */
+            height: 40vh; /* 40% of the viewport height */
             
             display: flex;
             justify-content: center;
