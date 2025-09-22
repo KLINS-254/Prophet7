@@ -40,12 +40,12 @@
             justify-content: center;
             align-items: center;
             border-radius: 5px;
-        }
-
-        .fingerprint-icon {
-            width: 90%;
+            /* Placeholder for the fingerprint image */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0C22.4 0 0 22.4 0 50s22.4 50 50 50 50-22.4 50-50S77.6 0 50 0zm0 10c-16.6 0-30 13.4-30 30s13.4 30 30 30 30-13.4 30-30-13.4-30-30-30zm0 10c-11.1 0-20 8.9-20 20s8.9 20 20 20 20-8.9 20-20-8.9-20-20-20zm0 10c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 10c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z" fill="%2308f"/></svg>');
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: center;
             filter: brightness(0.7) drop-shadow(0 0 15px #08f);
-            opacity: 0.8;
         }
 
         .scan-line {
@@ -75,7 +75,6 @@
 
     <div class="fingerprint-container">
         <div class="fingerprint-frame">
-            <img src="fingerprint-icon.png" alt="Scan Icon" class="fingerprint-icon">
             <div class="scan-line"></div>
         </div>
     </div>
