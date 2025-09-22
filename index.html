@@ -62,7 +62,8 @@
 
         .scan-container:hover .scan-line {
             opacity: 1;
-            animation: scan 3s linear infinite;
+            /* Animation runs 5 times and stays at the last keyframe (100%) */
+            animation: scan 3s linear 5 forwards;
         }
 
         @keyframes scan {
