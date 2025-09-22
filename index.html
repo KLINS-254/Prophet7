@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fingerprint Scan on Touch</title>
+<title>Fingerprint Scan Area</title>
 <style>
   body {
     margin: 0;
@@ -25,14 +25,23 @@
     box-shadow: 0 0 30px #00ff00 inset;
   }
 
+  .finger-box {
+    position: absolute;
+    width: 60px;   /* adjustable to match finger width */
+    height: 80px;  /* adjustable to match finger height */
+    border: 2px solid limegreen;
+    border-radius: 10px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
   .line {
     position: absolute;
-    width: 60px;      /* width of the line, like finger size */
+    width: 100%;
     height: 4px;
     background: limegreen;
     left: 0;
     top: 0;
-    display: none;    /* hidden until touch */
   }
 </style>
 </head>
@@ -42,39 +51,42 @@
 
 <script>
 const scanner = document.getElementById('scanner');
-let line, scanInterval;
+let fingerBox, scanLine, scanInterval;
 
 function startScan(x, y) {
-  // Create line if not exists
-  if (!line) {
-    line = document.createElement('div');
-    line.classList.add('line');
-    scanner.appendChild(line);
-  }
-  line.style.left = `${x - 30}px`;  // center at touch
-  line.style.top = `${y}px`;
-  line.style.display = 'block';
+  // Create finger box
+  fingerBox = document.createElement('div');
+  fingerBox.classList.add('finger-box');
+  fingerBox.style.left = `${x - 30}px`;  // center the box
+  fingerBox.style.top = `${y - 40}px`;
+  scanner.appendChild(fingerBox);
+
+  // Create scanning line
+  scanLine = document.createElement('div');
+  scanLine.classList.add('line');
+  fingerBox.appendChild(scanLine);
 
   // Vibrate on touch
   if (navigator.vibrate) navigator.vibrate(50);
 
-  // Start continuous scan
-  let pos = y;
+  // Continuous scan inside finger box
+  let pos = 0;
   let direction = 1;
   scanInterval = setInterval(() => {
-    pos += direction * 2;
-    if (pos >= scanner.clientHeight - 4) direction = -1;
+    pos += direction * 2; // scanning speed
+    if (pos >= fingerBox.clientHeight - 4) direction = -1;
     if (pos <= 0) direction = 1;
-    line.style.top = pos + 'px';
+    scanLine.style.top = pos + 'px';
   }, 16);
 }
 
 function stopScan() {
   clearInterval(scanInterval);
-  if (line) line.style.display = 'none';
+  if (fingerBox) fingerBox.remove();
+  fingerBox = null;
+  scanLine = null;
 }
 
-// Get relative coordinates
 function getRelativePosition(e) {
   const rect = scanner.getBoundingClientRect();
   let x, y;
