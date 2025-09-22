@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fingerprint Continuous Scan</title>
+<title>Fingerprint Scan with Vibration</title>
 <style>
   body {
     margin: 0;
@@ -27,7 +27,7 @@
 
   .finger-box {
     position: absolute;
-    width: 60px;  /* adjustable to match finger size */
+    width: 60px;
     height: 80px;
     border: 2px solid limegreen;
     border-radius: 10px;
@@ -58,7 +58,7 @@ function createFingerBox(x, y) {
   // Create box
   fingerBox = document.createElement('div');
   fingerBox.classList.add('finger-box');
-  fingerBox.style.left = `${x - 30}px`; // center
+  fingerBox.style.left = `${x - 30}px`;
   fingerBox.style.top = `${y - 40}px`;
   scanner.appendChild(fingerBox);
 
@@ -68,7 +68,7 @@ function createFingerBox(x, y) {
   scanLine.style.top = '0px';
   fingerBox.appendChild(scanLine);
 
-  // Vibrate on touch (if supported)
+  // Trigger vibration (50ms)
   if (navigator.vibrate) {
     navigator.vibrate(50);
   }
@@ -77,11 +77,11 @@ function createFingerBox(x, y) {
   let pos = 0;
   let direction = 1;
   scanInterval = setInterval(() => {
-    pos += direction * 2; // speed of scan
+    pos += direction * 2;
     if (pos >= fingerBox.clientHeight - 4) direction = -1;
     if (pos <= 0) direction = 1;
     scanLine.style.top = pos + 'px';
-  }, 16); // ~60fps
+  }, 16);
 }
 
 function removeFingerBox() {
@@ -91,7 +91,6 @@ function removeFingerBox() {
   scanLine = null;
 }
 
-// Get relative coordinates
 function getRelativePosition(e) {
   const rect = scanner.getBoundingClientRect();
   let x, y;
@@ -105,7 +104,7 @@ function getRelativePosition(e) {
   return {x, y};
 }
 
-// Touch/Click events
+// Mouse events
 scanner.addEventListener('mousedown', (e) => {
   const {x, y} = getRelativePosition(e);
   createFingerBox(x, y);
@@ -114,6 +113,7 @@ scanner.addEventListener('mousedown', (e) => {
 scanner.addEventListener('mouseup', removeFingerBox);
 scanner.addEventListener('mouseleave', removeFingerBox);
 
+// Touch events
 scanner.addEventListener('touchstart', (e) => {
   const {x, y} = getRelativePosition(e);
   createFingerBox(x, y);
